@@ -3,7 +3,7 @@ dotenv.config();
 
 const express = require('express');
 const cors = require('cors');
-const { createNewGame, processGuess, getGameState } = require('./gameLogic');
+const { createNewGame, processGuess, getGameState, DIFFICULTY_SETTINGS } = require('./gameLogic');
 
 
 const app = express();
@@ -18,22 +18,33 @@ app.use(express.json());
 
 // Routes
 app.post('/game', async (req, res) => {
-    console.log('Received request to create new game');
-  try {
-    const gameId = await createNewGame();  // Now async!
-    const gameState = getGameState(gameId);
-    
-    // Add hint if available
-    const game = require('./gameLogic').games.get(gameId);
-    if (game && game.aiHint) {
-      gameState.hint = game.aiHint;
+    console.log('📝 Received request to create new game');
+    try {
+        // Get difficulty from request body, default to 'medium'
+        const { difficulty = 'medium', useAI = true } = req.body;
+        
+        console.log(`🎯 Requested difficulty: ${difficulty}`);
+        
+        // Validate difficulty
+        if (!DIFFICULTY_SETTINGS[difficulty]) {
+            return res.status(400).json({ 
+                error: 'Invalid difficulty level. Choose: easy, medium, hard, expert' 
+            });
+        }
+        
+        const gameId = await createNewGame(difficulty, useAI);
+        const gameState = getGameState(gameId);
+        
+        res.status(201).json(gameState);
+    } catch (error) {
+        console.error('❌ Error creating game:', error);
+        res.status(500).json({ error: 'Failed to create game: ' + error.message });
     }
-    
-    res.status(201).json(gameState);
-  } catch (error) {
-    console.error('Error creating game:', error);
-    res.status(500).json({ error: 'Failed to create game' });
-  }
+});
+
+// Add endpoint to get difficulty settings
+app.get('/difficulties', (req, res) => {
+    res.json(DIFFICULTY_SETTINGS);
 });
 
 app.get('/game/:gameId/hint', (req, res) => {

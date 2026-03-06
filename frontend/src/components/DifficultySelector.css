@@ -1,0 +1,53 @@
+.difficulty-selector {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.difficulty-selector h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.difficulty-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.difficulty-btn {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.difficulty-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.difficulty-btn.active {
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.2);
+}
+
+.difficulty-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.difficulty-name {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+.difficulty-details {
+    font-size: 0.8em;
+    opacity: 0.9;
+}

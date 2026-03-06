@@ -39,6 +39,26 @@
   transition: background-color 0.3s;
 }
 
+.new-game-button {
+    border: #4caf50;
+    margin: 1rem;
+    padding: 5px 10px;
+    margin-bottom: 0;
+}
+
+.difficulty-badge {
+    display: block;
+    margin: 1rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    margin-bottom: 0;
+}
+.difficulty-class {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
 .start-button:hover:not(:disabled),
 .new-game-button:hover:not(:disabled) {
   background-color: #45a049;

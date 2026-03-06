@@ -1,8 +1,8 @@
 🎮 CodeWords - AI-Powered Word Guessing Game
-https://img.shields.io/badge/version-1.0.0-blue
-https://img.shields.io/badge/React-18.2.0-61dafb
-https://img.shields.io/badge/Node.js-18.x-green
-https://img.shields.io/badge/license-MIT-purple
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![React](https://img.shields.io/badge/React-18.2.0-61dafb)
+![Node.js](https://img.shields.io/badge/Node.js-18.x-green)
+![License](https://img.shields.io/badge/license-MIT-purple)
 
 A full-stack word-guessing game that combines the best elements of Hangman and Wordle, featuring AI-powered word generation and an intelligent AI opponent mode. Built with React, Node.js, and GitHub Models API.
 

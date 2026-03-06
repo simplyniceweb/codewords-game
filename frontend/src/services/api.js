@@ -10,13 +10,21 @@ const api = axios.create({
     timeout: 10000,
 });
 
-export const createNewGame = async (difficulty = 'medium', useAI = true) => {
+export const createNewGame = async (difficulty = 'medium', useAI = true, customSettings = null) => {
     try {
-        console.log('Creating new game with difficulty:', difficulty);
-        const response = await api.post('/game', { 
+        console.log('Creating new game with:', { difficulty, useAI, customSettings });
+        
+        const payload = { 
             difficulty, 
             useAI 
-        });
+        };
+        
+        // Add custom settings if provided
+        if (customSettings) {
+            payload.customSettings = customSettings;
+        }
+        
+        const response = await api.post('/game', payload);
         console.log('New game created:', response.data);
         return response.data;
     } catch (error) {
@@ -39,16 +47,6 @@ export const getGameState = async (gameId) => {
         const response = await api.get(`/game/${gameId}`);
         return response.data;
     } catch (error) {
-        throw error.response?.data || error.message;
-    }
-};
-
-export const getDifficulties = async () => {
-    try {
-        const response = await api.get('/difficulties');
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching difficulties:', error);
         throw error.response?.data || error.message;
     }
 };

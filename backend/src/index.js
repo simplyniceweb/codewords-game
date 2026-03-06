@@ -3,7 +3,7 @@ dotenv.config();
 
 const express = require('express');
 const cors = require('cors');
-const { createNewGame, processGuess, getGameState, DIFFICULTY_SETTINGS } = require('./gameLogic');
+const { createNewGame, processGuess, getGameState, DIFFICULTY_SETTINGS, DIFFICULTY_PRESETS } = require('./gameLogic');
 
 
 const app = express();
@@ -19,20 +19,31 @@ app.use(express.json());
 // Routes
 app.post('/game', async (req, res) => {
     console.log('📝 Received request to create new game');
+    console.log('Request body:', req.body);
+    
     try {
-        // Get difficulty from request body, default to 'medium'
-        const { difficulty = 'medium', useAI = true } = req.body;
+        const { difficulty = 'medium', useAI = true, customSettings = null } = req.body;
         
         console.log(`🎯 Requested difficulty: ${difficulty}`);
+        if (customSettings) {
+            console.log('⚙️ Custom settings:', customSettings);
+        }
         
         // Validate difficulty
-        if (!DIFFICULTY_SETTINGS[difficulty]) {
+        if (!DIFFICULTY_PRESETS[difficulty] && difficulty !== 'custom') {
             return res.status(400).json({ 
-                error: 'Invalid difficulty level. Choose: easy, medium, hard, expert' 
+                error: 'Invalid difficulty level. Choose: easy, medium, hard, expert, custom' 
             });
         }
         
-        const gameId = await createNewGame(difficulty, useAI);
+        // For custom difficulty, require customSettings
+        if (difficulty === 'custom' && !customSettings) {
+            return res.status(400).json({ 
+                error: 'Custom settings required for custom difficulty' 
+            });
+        }
+        
+        const gameId = await createNewGame(difficulty, useAI, customSettings);
         const gameState = getGameState(gameId);
         
         res.status(201).json(gameState);

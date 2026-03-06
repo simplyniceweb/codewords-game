@@ -11,9 +11,12 @@ const api = axios.create({
 
 export const createNewGame = async () => {
   try {
+    console.log('Creating new game...');
     const response = await api.post('/game');
+    console.log('New game created:', response.data);
     return response.data;
   } catch (error) {
+    console.error('Error creating new game:', error);
     throw error.response?.data || error.message;
   }
 };

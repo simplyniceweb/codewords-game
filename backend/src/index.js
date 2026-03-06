@@ -1,9 +1,10 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const express = require('express');
 const cors = require('cors');
-const dotenv = require('dotenv');
 const { createNewGame, processGuess, getGameState } = require('./gameLogic');
 
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -16,11 +17,35 @@ app.use(cors({
 app.use(express.json());
 
 // Routes
-app.post('/game', (req, res) => {
+app.post('/game', async (req, res) => {
+    console.log('Received request to create new game');
   try {
-    const gameId = createNewGame();
+    const gameId = await createNewGame();  // Now async!
     const gameState = getGameState(gameId);
+    
+    // Add hint if available
+    const game = require('./gameLogic').games.get(gameId);
+    if (game && game.aiHint) {
+      gameState.hint = game.aiHint;
+    }
+    
     res.status(201).json(gameState);
+  } catch (error) {
+    console.error('Error creating game:', error);
+    res.status(500).json({ error: 'Failed to create game' });
+  }
+});
+
+app.get('/game/:gameId/hint', (req, res) => {
+  try {
+    const { gameId } = req.params;
+    const game = require('./gameLogic').games.get(gameId);
+    
+    if (!game) {
+      return res.status(404).json({ error: 'Game not found' });
+    }
+    
+    res.json({ hint: game.aiHint || 'No hint available yet' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

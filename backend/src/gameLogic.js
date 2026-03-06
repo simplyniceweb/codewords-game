@@ -1,4 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
+const AIWordGenerator = require('./aiWordGenerator');
+
+const aiGenerator = new AIWordGenerator();
 
 // Word list for the game
 const WORD_LIST = [
@@ -15,8 +18,15 @@ const games = new Map();
 
 const MAX_ATTEMPTS = 6;
 
-const createNewGame = () => {
-  const word = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
+const createNewGame = async (useAI = true) => {  // Set to true by default
+  let word;
+  
+  if (useAI) {
+    word = await aiGenerator.generateWord();
+  } else {
+    word = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
+  }
+  
   const gameId = uuidv4();
   
   const game = {
@@ -25,10 +35,19 @@ const createNewGame = () => {
     guessedLetters: new Set(),
     remainingAttempts: MAX_ATTEMPTS,
     status: 'IN_PROGRESS',
-    createdAt: new Date()
+    createdAt: new Date(),
+    aiHint: null
   };
   
   games.set(gameId, game);
+  
+  // Generate a hint in the background (optional)
+  aiGenerator.generateHint(word, new Set()).then(hint => {
+    if (hint && games.has(gameId)) {
+      games.get(gameId).aiHint = hint;
+    }
+  });
+  
   return gameId;
 };
 

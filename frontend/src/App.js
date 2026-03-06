@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { createNewGame, makeGuess } from './services/api';
 import GameBoard from './components/GameBoard';
 import GuessInput from './components/GuessInput';
 import DifficultySelector from './components/DifficultySelector';
+import AIOpponent from './components/AIOpponent'; // Import AI Opponent
+import { createNewGame, makeGuess } from './services/api';
 import './App.css';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
     const [selectedDifficulty, setSelectedDifficulty] = useState('medium');
     const [customSettings, setCustomSettings] = useState(null);
     const [lastGuessResult, setLastGuessResult] = useState(null);
+    const [gameMode, setGameMode] = useState('normal'); // 'normal' or 'ai-opponent'
 
     const startNewGame = async () => {
         setLoading(true);
@@ -19,18 +21,14 @@ function App() {
         setLastGuessResult(null);
         
         try {
-            console.log('Starting game with difficulty:', selectedDifficulty);
-            console.log('Custom settings:', customSettings);
-            
             let newGame;
             if (selectedDifficulty === 'custom' && customSettings) {
-                // Send custom settings to backend
                 newGame = await createNewGame('custom', true, customSettings);
             } else {
                 newGame = await createNewGame(selectedDifficulty, true);
             }
-            
             setGame(newGame);
+            setGameMode('normal');
         } catch (err) {
             setError(typeof err === 'string' ? err : 'Failed to start game');
         } finally {
@@ -51,7 +49,6 @@ function App() {
                 message: updatedGame.message
             });
             
-            // Clear result message after 2 seconds
             setTimeout(() => setLastGuessResult(null), 2000);
         } catch (err) {
             setError(typeof err === 'string' ? err : 'Failed to make guess');
@@ -65,10 +62,33 @@ function App() {
         setSelectedDifficulty('custom');
     };
 
+    // Render different game modes
+    if (gameMode === 'ai-opponent') {
+        return (
+            <div className="App">
+                <header className="app-header">
+                    <h1>🎮 CodeWords - AI Opponent</h1>
+                </header>
+                <main className="app-main">
+                    <AIOpponent onBack={() => setGameMode('normal')} />
+                </main>
+            </div>
+        );
+    }
+
+    // Normal game mode
     return (
         <div className="App">
             <header className="app-header">
                 <h1>🎮 CodeWords</h1>
+                <div className="mode-selector">
+                    <button 
+                        onClick={() => setGameMode('ai-opponent')}
+                        className="mode-button"
+                    >
+                        🤖 Play vs AI
+                    </button>
+                </div>
             </header>
             
             <main className="app-main">
@@ -85,9 +105,6 @@ function App() {
                             onClick={startNewGame} 
                             disabled={loading || (selectedDifficulty === 'custom' && !customSettings)}
                             className="start-button"
-                            style={{
-                                opacity: (selectedDifficulty === 'custom' && !customSettings) ? 0.5 : 1
-                            }}
                         >
                             {loading ? 'Starting...' : 'Start New Game'}
                         </button>
@@ -147,36 +164,31 @@ function App() {
                                 onGuess={handleGuess} 
                                 disabled={loading}
                             />
-                        ) : game.status !== 'IN_PROGRESS' && (
-                                <div className="game-over">
-                                    <h2>{game.status === 'WON' ? '🎉 Victory!' : '😢 Game Over'}</h2>
-                                    <div className="word-reveal">
-                                        <p>The word was:</p>
-                                        <div className="final-word">
-                                            {game.word.split('').map((letter, index) => (
-                                                <span key={index} className="final-letter">
-                                                    {letter.toUpperCase()}
-                                                </span>
-                                            ))}
-                                        </div>
+                        ) : (
+                            <div className="game-over">
+                                <h2>{game.status === 'WON' ? '🎉 Victory!' : '😢 Game Over'}</h2>
+                                <div className="word-reveal">
+                                    <p>The word was:</p>
+                                    <div className="final-word">
+                                        {game.word.split('').map((letter, index) => (
+                                            <span key={index} className="final-letter">
+                                                {letter.toUpperCase()}
+                                            </span>
+                                        ))}
                                     </div>
-                                    
-                                    {game.status === 'LOST' && (
-                                        <p className="try-again-message">Better luck next time! 🍀</p>
-                                    )}
-                                    
-                                    <button 
-                                        onClick={() => {
-                                            setGame(null);
-                                            setLastGuessResult(null);
-                                        }} 
-                                        disabled={loading}
-                                        className="new-game-button"
-                                    >
-                                        Play Again
-                                    </button>
                                 </div>
-                            )}
+                                <button 
+                                    onClick={() => {
+                                        setGame(null);
+                                        setLastGuessResult(null);
+                                    }} 
+                                    disabled={loading}
+                                    className="new-game-button"
+                                >
+                                    Play Again
+                                </button>
+                            </div>
+                        )}
                         
                         {error && <div className="error">{error}</div>}
                     </div>

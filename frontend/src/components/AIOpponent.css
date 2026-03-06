@@ -1,0 +1,407 @@
+.ai-opponent-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #667eea;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.back-button:hover {
+    color: #764ba2;
+}
+
+.ai-opponent-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 2rem;
+}
+
+.ai-description {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+.word-selection {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.input-group {
+    margin-bottom: 30px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: 600;
+}
+
+.word-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: lowercase;
+}
+
+.word-input:focus {
+    border-color: #667eea;
+    outline: none;
+}
+
+.word-hint {
+    margin-top: 10px;
+    color: #666;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.start-ai-button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.start-ai-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.start-ai-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.ai-game-area {
+    animation: fadeIn 0.5s ease;
+}
+
+.ai-game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+}
+
+.ai-status {
+    display: flex;
+    gap: 15px;
+}
+
+.status-badge {
+    padding: 8px 20px;
+    background: white;
+    border-radius: 25px;
+    font-weight: 600;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.status-badge.attempts {
+    background: #667eea;
+    color: white;
+}
+
+.ai-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.auto-play-toggle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.auto-play-toggle input {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.ai-turn-button {
+    padding: 10px 25px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.ai-turn-button:hover:not(:disabled) {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+
+.ai-turn-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.ai-game-board {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.word-progress {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.ai-letter-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: white;
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.guessed-letters {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.guessed-letters h4 {
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.letters-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.guessed-letter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #e0e0e0;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.ai-message {
+    text-align: center;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    animation: slideIn 0.3s ease;
+}
+
+.ai-message.correct {
+    background: #d4edda;
+    color: #155724;
+}
+
+.ai-message.wrong {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.guess-history {
+    margin-top: 30px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.guess-history h4 {
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    animation: slideIn 0.3s ease;
+}
+
+.history-item.correct-guess {
+    border-left: 4px solid #4caf50;
+}
+
+.history-item.wrong-guess {
+    border-left: 4px solid #f44336;
+}
+
+.guess-time {
+    color: #999;
+    font-size: 0.8rem;
+}
+
+.guess-value {
+    font-weight: bold;
+    color: #333;
+    min-width: 60px;
+}
+
+.guess-message {
+    color: #666;
+    flex: 1;
+}
+
+.ai-game-over {
+    text-align: center;
+    padding: 30px;
+    margin-top: 30px;
+    background: white;
+    border-radius: 15px;
+    animation: popIn 0.5s ease;
+}
+
+.ai-game-over.ai-lost {
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+}
+
+.ai-game-over.ai-won {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+}
+
+.ai-game-over h3 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.final-word-reveal {
+    font-size: 1.2rem;
+    margin: 20px 0;
+}
+
+.final-word-reveal strong {
+    font-size: 2rem;
+    color: #764ba2;
+    display: block;
+    margin-top: 10px;
+}
+
+.play-again-button {
+    padding: 12px 30px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.play-again-button:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.ai-turn-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+}
+
+.no-guesses {
+    color: #999;
+    font-style: italic;
+    padding: 10px;
+}

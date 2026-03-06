@@ -312,6 +312,33 @@ body {
     animation: bounce 1s infinite;
 }
 
+.mode-selector {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.mode-button {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.mode-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+}
+
+.app-header {
+    position: relative;
+}
+
 @keyframes bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-5px); }

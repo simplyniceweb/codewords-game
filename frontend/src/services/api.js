@@ -50,3 +50,31 @@ export const getGameState = async (gameId) => {
         throw error.response?.data || error.message;
     }
 };
+
+// AI Opponent endpoints
+export const startAIGame = async (word, difficulty = 'medium') => {
+    try {
+        const response = await api.post('/game/ai-opponent', { word, difficulty });
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || error.message;
+    }
+};
+
+export const makeAIGuess = async (gameId) => {
+    try {
+        const response = await api.post(`/game/ai-opponent/${gameId}/guess`);
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || error.message;
+    }
+};
+
+export const getAIGameState = async (gameId) => {
+    try {
+        const response = await api.get(`/game/ai-opponent/${gameId}`);
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || error.message;
+    }
+};

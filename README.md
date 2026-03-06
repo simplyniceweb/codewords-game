@@ -1,4 +1,5 @@
 🎮 CodeWords - AI-Powered Word Guessing Game
+
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![React](https://img.shields.io/badge/React-18.2.0-61dafb)
 ![Node.js](https://img.shields.io/badge/Node.js-18.x-green)
